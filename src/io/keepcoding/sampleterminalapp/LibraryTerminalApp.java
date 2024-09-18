@@ -1,6 +1,7 @@
 package io.keepcoding.sampleterminalapp;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import io.keepcoding.library.model.*;
@@ -44,6 +45,21 @@ public class LibraryTerminalApp {
 		}
 		return result;
 	}
+	
+	public Book searchBookPerTitle(String titleText) {
+		String[] wordsList = titleText.split("[, ]+");
+		Book result = null;
+		
+		for (String keyword: wordsList) {
+		    for (Book book: bookList) {
+		    	if(book.getTitle().toLowerCase().contains(keyword.toLowerCase())) {
+				result = book;
+			}
+		}
+		}
+		return result;
+		
+	}
 
 	public static void main(String[] args) {
 
@@ -57,7 +73,8 @@ public class LibraryTerminalApp {
 
 			System.out.println("1. Press 1 to see books List");
 			System.out.println("2. Press 2 to search a book by code");
-			System.out.println("3. Press q to exit");
+			System.out.println("3. Press 3 to search a book by title");
+			System.out.println("4. Press 4 to exit");
 
 			Scanner scanner = new Scanner(System.in);
 			String option = scanner.nextLine();
@@ -88,8 +105,24 @@ public class LibraryTerminalApp {
 				System.out.println(bookresult);
 
 				break;
+				
+			case "3":
+				
+				System.out.println("Please, introduce keyword to search: ");
+				String keyWord = scanner.nextLine();
+				String bookResult = "";
+				Book booksearched = library.searchBookPerTitle(keyWord);
+				if (booksearched != null) {
+					bookResult = "Here is your book: " + booksearched.getTitle() + "; " + booksearched.getAuthor();
+				}
+				else {
+					bookresult = "Book not found :(, can you try again?";
+				}
+				
+				System.out.println(bookResult);
+				break;
 
-			case "q":
+			case "4":
 				
 				exit = true;
 				
@@ -105,7 +138,9 @@ public class LibraryTerminalApp {
 		} while (!exit);
 		
 		System.out.println("Bye");
+		
 
 	}
 
 }
+
